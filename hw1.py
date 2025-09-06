@@ -14,12 +14,27 @@ data = {
     "movie_or_game_or_book": "Forrest Gump",
     "section": "103"
 }
+response = requests.post(url, json=data)
+body = response.json()
+# Error handling
+if response.status_code == 200:
+    if body.get("status") == "error":
+        print("UCID with corresponding data already exists.")
+    else:
+        print("All actions completed.")
+elif response.status_code == 409:
+    print("UCID with corresponding data already exists.")
+
+else:   
+    print("Error status:" , response.status_code)
+    print("Body:" , response.json())
 
 response = requests.get(url)
-
+body = response.json()
 # Error handling
 if response.status_code == 200:
     print("All actions Completed.")
+
 else:   
     print("Error status:" , response.status_code)
 print("Body:" , response.json())
